@@ -1,0 +1,66 @@
+{
+  "kind": "collectionType",
+  "collectionName": "account_users",
+  "info": {
+    "singularName": "account-user",
+    "pluralName": "account-users",
+    "displayName": "account_user",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "username": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "password": {
+      "type": "password"
+    },
+    "profile_picture": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "bio": {
+      "type": "text"
+    },
+    "date_of_birthday": {
+      "type": "date"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "gender": {
+      "type": "string"
+    },
+    "relationship_status": {
+      "type": "string"
+    },
+    "address": {
+      "type": "text"
+    },
+    "role_ids": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::account-role.account-role",
+      "inversedBy": "account_users"
+    },
+    "posts": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::post.post",
+      "mappedBy": "user_id"
+    }
+  }
+}
