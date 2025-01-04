@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "user_socials",
+  "info": {
+    "singularName": "user-social",
+    "pluralName": "user-socials",
+    "displayName": "user_social",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "social_id": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::social.social"
+    },
+    "account_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::account-user.account-user",
+      "inversedBy": "user_socials"
+    },
+    "account_url": {
+      "type": "text"
+    }
+  }
+}

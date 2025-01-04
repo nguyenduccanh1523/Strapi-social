@@ -61,6 +61,12 @@
       "relation": "oneToMany",
       "target": "api::post.post",
       "mappedBy": "user_id"
+    },
+    "user_socials": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::user-social.user-social",
+      "mappedBy": "account_user"
     }
   }
 }

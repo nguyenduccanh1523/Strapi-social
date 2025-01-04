@@ -444,6 +444,10 @@ export interface ApiAccountUserAccountUser extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    user_socials: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::user-social.user-social'
+    >;
     username: Schema.Attribute.String;
   };
 }
@@ -517,6 +521,35 @@ export interface ApiPostPost extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiSocialSocial extends Struct.CollectionTypeSchema {
+  collectionName: 'socials';
+  info: {
+    displayName: 'social';
+    pluralName: 'socials';
+    singularName: 'social';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    icon_url: Schema.Attribute.Text;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::social.social'
+    > &
+      Schema.Attribute.Private;
+    platform: Schema.Attribute.Text;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiTagTag extends Struct.CollectionTypeSchema {
   collectionName: 'tags';
   info: {
@@ -564,6 +597,40 @@ export interface ApiTypeType extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     name: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiUserSocialUserSocial extends Struct.CollectionTypeSchema {
+  collectionName: 'user_socials';
+  info: {
+    description: '';
+    displayName: 'user_social';
+    pluralName: 'user-socials';
+    singularName: 'user-social';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    account_url: Schema.Attribute.Text;
+    account_user: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::account-user.account-user'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::user-social.user-social'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    social_id: Schema.Attribute.Relation<'oneToOne', 'api::social.social'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1092,8 +1159,10 @@ declare module '@strapi/strapi' {
       'api::account-user.account-user': ApiAccountUserAccountUser;
       'api::post-tag.post-tag': ApiPostTagPostTag;
       'api::post.post': ApiPostPost;
+      'api::social.social': ApiSocialSocial;
       'api::tag.tag': ApiTagTag;
       'api::type.type': ApiTypeType;
+      'api::user-social.user-social': ApiUserSocialUserSocial;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;
