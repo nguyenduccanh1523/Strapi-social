@@ -1,0 +1,30 @@
+{
+    "kind": "collectionType",
+    "collectionName": "medias",
+    "info": {
+        "singularName": "media",
+        "pluralName": "medias",
+        "displayName": "media"
+    },
+    "options": {
+        "draftAndPublish": true
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "file_path": {
+            "type": "text"
+        },
+        "file_type": {
+            "type": "text"
+        },
+        "file_size": {
+            "type": "string"
+        },
+        "post_media": {
+            "type": "relation",
+            "relation": "manyToOne",
+            "target": "api::post-media.post-media",
+            "inversedBy": "media"
+        }
+    }
+}

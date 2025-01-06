@@ -1,0 +1,27 @@
+{
+    "kind": "collectionType",
+    "collectionName": "post_medias",
+    "info": {
+        "singularName": "post-media",
+        "pluralName": "post-medias",
+        "displayName": "post_media"
+    },
+    "options": {
+        "draftAndPublish": true
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "post_id": {
+            "type": "relation",
+            "relation": "oneToOne",
+            "target": "api::post.post",
+            "inversedBy": "post_media"
+        },
+        "media": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::media.media",
+            "mappedBy": "post_media"
+        }
+    }
+}

@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "group_resquests",
+  "info": {
+    "singularName": "group-resquest",
+    "pluralName": "group-resquests",
+    "displayName": "group_resquest"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "request_status": {
+      "type": "string"
+    },
+    "group_id": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::group.group"
+    },
+    "user_request": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::account-user.account-user"
+    }
+  }
+}

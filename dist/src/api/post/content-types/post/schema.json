@@ -21,8 +21,22 @@
         "content": {
             "type": "text"
         },
-        "group_id": {
-            "type": "string"
+        "type_id": {
+            "type": "relation",
+            "relation": "oneToOne",
+            "target": "api::type.type"
+        },
+        "group": {
+            "type": "relation",
+            "relation": "manyToOne",
+            "target": "api::group.group",
+            "inversedBy": "posts"
+        },
+        "post_media": {
+            "type": "relation",
+            "relation": "oneToOne",
+            "target": "api::post-media.post-media",
+            "mappedBy": "post_id"
         },
         "post_tags": {
             "type": "relation",
@@ -30,10 +44,17 @@
             "target": "api::post-tag.post-tag",
             "mappedBy": "post_id"
         },
-        "type_id": {
+        "shares": {
             "type": "relation",
-            "relation": "oneToOne",
-            "target": "api::type.type"
+            "relation": "oneToMany",
+            "target": "api::share.share",
+            "mappedBy": "post_id"
+        },
+        "comments": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::comment.comment",
+            "mappedBy": "post_id"
         }
     }
 }

@@ -4,20 +4,11 @@
   "info": {
     "singularName": "post-tag",
     "pluralName": "post-tags",
-    "displayName": "post_tag"
+    "displayName": "post_tag",
+    "description": ""
   },
   "options": {
-    "draftAndPublish": true,
-    "indexes": [
-      {
-        "name": "unique_post_tag",
-        "columns": [
-          "post_id",
-          "tag_id"
-        ],
-        "type": "unique"
-      }
-    ]
+    "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
@@ -27,11 +18,11 @@
       "target": "api::post.post",
       "inversedBy": "post_tags"
     },
-    "tag_id": {
+    "tag_ids": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "manyToMany",
       "target": "api::tag.tag",
-      "inversedBy": "post_tags"
+      "mappedBy": "post_tags"
     }
   }
 }

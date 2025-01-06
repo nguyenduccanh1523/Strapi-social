@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "group_members",
+  "info": {
+    "singularName": "group-member",
+    "pluralName": "group-members",
+    "displayName": "group_member",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "group_id": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::group.group",
+      "inversedBy": "member_ids"
+    },
+    "users_ids": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::account-user.account-user",
+      "inversedBy": "groups_ids"
+    }
+  }
+}
