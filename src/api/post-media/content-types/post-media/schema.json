@@ -4,7 +4,8 @@
   "info": {
     "singularName": "post-media",
     "pluralName": "post-medias",
-    "displayName": "post_media"
+    "displayName": "post_media",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -13,9 +14,9 @@
   "attributes": {
     "post_id": {
       "type": "relation",
-      "relation": "oneToOne",
+      "relation": "manyToOne",
       "target": "api::post.post",
-      "inversedBy": "post_media"
+      "inversedBy": "post_medias"
     },
     "media": {
       "type": "relation",

@@ -1,0 +1,27 @@
+{
+    "kind": "collectionType",
+    "collectionName": "view_stories",
+    "info": {
+        "singularName": "view-story",
+        "pluralName": "view-stories",
+        "displayName": "view_story"
+    },
+    "options": {
+        "draftAndPublish": true
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "user_id": {
+            "type": "relation",
+            "relation": "manyToOne",
+            "target": "api::account-user.account-user",
+            "inversedBy": "view_stories"
+        },
+        "story_id": {
+            "type": "relation",
+            "relation": "manyToOne",
+            "target": "api::story.story",
+            "inversedBy": "view_stories"
+        }
+    }
+}

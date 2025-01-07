@@ -418,12 +418,22 @@ export interface ApiAccountUserAccountUser extends Struct.CollectionTypeSchema {
     address: Schema.Attribute.Text;
     admin_group: Schema.Attribute.Relation<'oneToMany', 'api::group.group'>;
     bio: Schema.Attribute.Text;
+    blocked: Schema.Attribute.Relation<'oneToMany', 'api::blocklist.blocklist'>;
+    blocklists: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::blocklist.blocklist'
+    >;
     comments: Schema.Attribute.Relation<'oneToMany', 'api::comment.comment'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     date_of_birthday: Schema.Attribute.Date;
     email: Schema.Attribute.Email;
+    friends: Schema.Attribute.Relation<'oneToMany', 'api::friend.friend'>;
+    friends_request: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::friend.friend'
+    >;
     gender: Schema.Attribute.String;
     groups_ids: Schema.Attribute.Relation<
       'manyToMany',
@@ -442,12 +452,14 @@ export interface ApiAccountUserAccountUser extends Struct.CollectionTypeSchema {
       'images' | 'files' | 'videos' | 'audios'
     >;
     publishedAt: Schema.Attribute.DateTime;
+    reactions: Schema.Attribute.Relation<'oneToMany', 'api::reaction.reaction'>;
     relationship_status: Schema.Attribute.String;
     role_ids: Schema.Attribute.Relation<
       'manyToMany',
       'api::account-role.account-role'
     >;
     shares: Schema.Attribute.Relation<'oneToMany', 'api::share.share'>;
+    stories: Schema.Attribute.Relation<'oneToMany', 'api::story.story'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -456,6 +468,45 @@ export interface ApiAccountUserAccountUser extends Struct.CollectionTypeSchema {
       'api::user-social.user-social'
     >;
     username: Schema.Attribute.String;
+    view_stories: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::view-story.view-story'
+    >;
+  };
+}
+
+export interface ApiBlocklistBlocklist extends Struct.CollectionTypeSchema {
+  collectionName: 'blocklists';
+  info: {
+    displayName: 'blocklist';
+    pluralName: 'blocklists';
+    singularName: 'blocklist';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    blocked_user_id: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::account-user.account-user'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::blocklist.blocklist'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    user_id: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::account-user.account-user'
+    >;
   };
 }
 
@@ -484,6 +535,42 @@ export interface ApiCommentComment extends Struct.CollectionTypeSchema {
     parent_id: Schema.Attribute.Relation<'oneToOne', 'api::comment.comment'>;
     post_id: Schema.Attribute.Relation<'manyToOne', 'api::post.post'>;
     publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    user_id: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::account-user.account-user'
+    >;
+  };
+}
+
+export interface ApiFriendFriend extends Struct.CollectionTypeSchema {
+  collectionName: 'friends';
+  info: {
+    displayName: 'friend';
+    pluralName: 'friends';
+    singularName: 'friend';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    friend_id: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::account-user.account-user'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::friend.friend'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    status_type: Schema.Attribute.Text;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -670,6 +757,7 @@ export interface ApiMediaMedia extends Struct.CollectionTypeSchema {
 export interface ApiPostMediaPostMedia extends Struct.CollectionTypeSchema {
   collectionName: 'post_medias';
   info: {
+    description: '';
     displayName: 'post_media';
     pluralName: 'post-medias';
     singularName: 'post-media';
@@ -688,7 +776,7 @@ export interface ApiPostMediaPostMedia extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     media: Schema.Attribute.Relation<'oneToMany', 'api::media.media'>;
-    post_id: Schema.Attribute.Relation<'oneToOne', 'api::post.post'>;
+    post_id: Schema.Attribute.Relation<'manyToOne', 'api::post.post'>;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -747,14 +835,48 @@ export interface ApiPostPost extends Struct.CollectionTypeSchema {
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::post.post'> &
       Schema.Attribute.Private;
-    post_media: Schema.Attribute.Relation<
-      'oneToOne',
+    post_medias: Schema.Attribute.Relation<
+      'oneToMany',
       'api::post-media.post-media'
     >;
     post_tags: Schema.Attribute.Relation<'oneToMany', 'api::post-tag.post-tag'>;
     publishedAt: Schema.Attribute.DateTime;
+    reactions: Schema.Attribute.Relation<'oneToMany', 'api::reaction.reaction'>;
     shares: Schema.Attribute.Relation<'oneToMany', 'api::share.share'>;
     type_id: Schema.Attribute.Relation<'oneToOne', 'api::type.type'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    user_id: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::account-user.account-user'
+    >;
+  };
+}
+
+export interface ApiReactionReaction extends Struct.CollectionTypeSchema {
+  collectionName: 'reactions';
+  info: {
+    displayName: 'reaction';
+    pluralName: 'reactions';
+    singularName: 'reaction';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::reaction.reaction'
+    > &
+      Schema.Attribute.Private;
+    post_id: Schema.Attribute.Relation<'manyToOne', 'api::post.post'>;
+    publishedAt: Schema.Attribute.DateTime;
+    reaction_type: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -821,6 +943,42 @@ export interface ApiSocialSocial extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+  };
+}
+
+export interface ApiStoryStory extends Struct.CollectionTypeSchema {
+  collectionName: 'stories';
+  info: {
+    displayName: 'story';
+    pluralName: 'stories';
+    singularName: 'story';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::story.story'> &
+      Schema.Attribute.Private;
+    media_url: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    user_id: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::account-user.account-user'
+    >;
+    view_stories: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::view-story.view-story'
+    >;
   };
 }
 
@@ -911,6 +1069,38 @@ export interface ApiUserSocialUserSocial extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+  };
+}
+
+export interface ApiViewStoryViewStory extends Struct.CollectionTypeSchema {
+  collectionName: 'view_stories';
+  info: {
+    displayName: 'view_story';
+    pluralName: 'view-stories';
+    singularName: 'view-story';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::view-story.view-story'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    story_id: Schema.Attribute.Relation<'manyToOne', 'api::story.story'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    user_id: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::account-user.account-user'
+    >;
   };
 }
 
@@ -1434,7 +1624,9 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::account-role.account-role': ApiAccountRoleAccountRole;
       'api::account-user.account-user': ApiAccountUserAccountUser;
+      'api::blocklist.blocklist': ApiBlocklistBlocklist;
       'api::comment.comment': ApiCommentComment;
+      'api::friend.friend': ApiFriendFriend;
       'api::group-invitation.group-invitation': ApiGroupInvitationGroupInvitation;
       'api::group-member.group-member': ApiGroupMemberGroupMember;
       'api::group-resquest.group-resquest': ApiGroupResquestGroupResquest;
@@ -1443,11 +1635,14 @@ declare module '@strapi/strapi' {
       'api::post-media.post-media': ApiPostMediaPostMedia;
       'api::post-tag.post-tag': ApiPostTagPostTag;
       'api::post.post': ApiPostPost;
+      'api::reaction.reaction': ApiReactionReaction;
       'api::share.share': ApiShareShare;
       'api::social.social': ApiSocialSocial;
+      'api::story.story': ApiStoryStory;
       'api::tag.tag': ApiTagTag;
       'api::type.type': ApiTypeType;
       'api::user-social.user-social': ApiUserSocialUserSocial;
+      'api::view-story.view-story': ApiViewStoryViewStory;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

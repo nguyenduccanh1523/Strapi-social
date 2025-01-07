@@ -91,6 +91,48 @@
       "relation": "oneToMany",
       "target": "api::comment.comment",
       "mappedBy": "user_id"
+    },
+    "reactions": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::reaction.reaction",
+      "mappedBy": "user_id"
+    },
+    "friends": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::friend.friend",
+      "mappedBy": "user_id"
+    },
+    "friends_request": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::friend.friend",
+      "mappedBy": "friend_id"
+    },
+    "stories": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::story.story",
+      "mappedBy": "user_id"
+    },
+    "view_stories": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::view-story.view-story",
+      "mappedBy": "user_id"
+    },
+    "blocklists": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::blocklist.blocklist",
+      "mappedBy": "user_id"
+    },
+    "blocked": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::blocklist.blocklist",
+      "mappedBy": "blocked_user_id"
     }
   }
 }
