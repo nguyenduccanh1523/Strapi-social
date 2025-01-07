@@ -1,0 +1,42 @@
+{
+  "kind": "collectionType",
+  "collectionName": "events",
+  "info": {
+    "singularName": "event",
+    "pluralName": "events",
+    "displayName": "event"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "text"
+    },
+    "description": {
+      "type": "text"
+    },
+    "host_id": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::account-user.account-user",
+      "inversedBy": "events_admin"
+    },
+    "start_time": {
+      "type": "datetime"
+    },
+    "end_time": {
+      "type": "datetime"
+    },
+    "location": {
+      "type": "text"
+    },
+    "event_members": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::event-member.event-member",
+      "mappedBy": "event_id"
+    }
+  }
+}

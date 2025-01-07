@@ -25,6 +25,12 @@
             "relation": "manyToOne",
             "target": "api::post-media.post-media",
             "inversedBy": "media"
+        },
+        "messages_media": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::message.message",
+            "mappedBy": "media_id"
         }
     }
 }

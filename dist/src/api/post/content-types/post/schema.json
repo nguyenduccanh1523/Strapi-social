@@ -32,12 +32,6 @@
             "target": "api::group.group",
             "inversedBy": "posts"
         },
-        "post_media": {
-            "type": "relation",
-            "relation": "oneToOne",
-            "target": "api::post-media.post-media",
-            "mappedBy": "post_id"
-        },
         "post_tags": {
             "type": "relation",
             "relation": "oneToMany",
@@ -54,6 +48,18 @@
             "type": "relation",
             "relation": "oneToMany",
             "target": "api::comment.comment",
+            "mappedBy": "post_id"
+        },
+        "reactions": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::reaction.reaction",
+            "mappedBy": "post_id"
+        },
+        "post_medias": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::post-media.post-media",
             "mappedBy": "post_id"
         }
     }
