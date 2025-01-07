@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "notifications",
+  "info": {
+    "singularName": "notification",
+    "pluralName": "notifications",
+    "displayName": "notification"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "user_id": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::account-user.account-user",
+      "inversedBy": "notifications"
+    },
+    "content": {
+      "type": "text"
+    },
+    "link": {
+      "type": "string"
+    },
+    "is_read": {
+      "type": "boolean"
+    }
+  }
+}

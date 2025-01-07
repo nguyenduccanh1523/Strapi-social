@@ -429,6 +429,11 @@ export interface ApiAccountUserAccountUser extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     date_of_birthday: Schema.Attribute.Date;
     email: Schema.Attribute.Email;
+    event_members: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::event-member.event-member'
+    >;
+    events_admin: Schema.Attribute.Relation<'oneToMany', 'api::event.event'>;
     friends: Schema.Attribute.Relation<'oneToMany', 'api::friend.friend'>;
     friends_request: Schema.Attribute.Relation<
       'oneToMany',
@@ -445,6 +450,10 @@ export interface ApiAccountUserAccountUser extends Struct.CollectionTypeSchema {
       'api::account-user.account-user'
     > &
       Schema.Attribute.Private;
+    notifications: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::notification.notification'
+    >;
     password: Schema.Attribute.Password;
     phone: Schema.Attribute.String;
     posts: Schema.Attribute.Relation<'oneToMany', 'api::post.post'>;
@@ -542,6 +551,76 @@ export interface ApiCommentComment extends Struct.CollectionTypeSchema {
       'manyToOne',
       'api::account-user.account-user'
     >;
+  };
+}
+
+export interface ApiEventMemberEventMember extends Struct.CollectionTypeSchema {
+  collectionName: 'event_members';
+  info: {
+    displayName: 'event_member';
+    pluralName: 'event-members';
+    singularName: 'event-member';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    event_id: Schema.Attribute.Relation<'manyToOne', 'api::event.event'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::event-member.event-member'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    status_type: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    user_id: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::account-user.account-user'
+    >;
+  };
+}
+
+export interface ApiEventEvent extends Struct.CollectionTypeSchema {
+  collectionName: 'events';
+  info: {
+    displayName: 'event';
+    pluralName: 'events';
+    singularName: 'event';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    end_time: Schema.Attribute.DateTime;
+    event_members: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::event-member.event-member'
+    >;
+    host_id: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::account-user.account-user'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::event.event'> &
+      Schema.Attribute.Private;
+    location: Schema.Attribute.Text;
+    name: Schema.Attribute.Text;
+    publishedAt: Schema.Attribute.DateTime;
+    start_time: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
   };
 }
 
@@ -751,6 +830,41 @@ export interface ApiMediaMedia extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+  };
+}
+
+export interface ApiNotificationNotification
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'notifications';
+  info: {
+    displayName: 'notification';
+    pluralName: 'notifications';
+    singularName: 'notification';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    content: Schema.Attribute.Text;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    is_read: Schema.Attribute.Boolean;
+    link: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::notification.notification'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    user_id: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::account-user.account-user'
+    >;
   };
 }
 
@@ -1626,12 +1740,15 @@ declare module '@strapi/strapi' {
       'api::account-user.account-user': ApiAccountUserAccountUser;
       'api::blocklist.blocklist': ApiBlocklistBlocklist;
       'api::comment.comment': ApiCommentComment;
+      'api::event-member.event-member': ApiEventMemberEventMember;
+      'api::event.event': ApiEventEvent;
       'api::friend.friend': ApiFriendFriend;
       'api::group-invitation.group-invitation': ApiGroupInvitationGroupInvitation;
       'api::group-member.group-member': ApiGroupMemberGroupMember;
       'api::group-resquest.group-resquest': ApiGroupResquestGroupResquest;
       'api::group.group': ApiGroupGroup;
       'api::media.media': ApiMediaMedia;
+      'api::notification.notification': ApiNotificationNotification;
       'api::post-media.post-media': ApiPostMediaPostMedia;
       'api::post-tag.post-tag': ApiPostTagPostTag;
       'api::post.post': ApiPostPost;

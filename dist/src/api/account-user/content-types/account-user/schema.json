@@ -133,6 +133,24 @@
             "relation": "oneToMany",
             "target": "api::blocklist.blocklist",
             "mappedBy": "blocked_user_id"
+        },
+        "notifications": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::notification.notification",
+            "mappedBy": "user_id"
+        },
+        "events_admin": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::event.event",
+            "mappedBy": "host_id"
+        },
+        "event_members": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::event-member.event-member",
+            "mappedBy": "user_id"
         }
     }
 }
