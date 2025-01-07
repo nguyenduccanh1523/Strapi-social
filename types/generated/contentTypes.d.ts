@@ -423,7 +423,17 @@ export interface ApiAccountUserAccountUser extends Struct.CollectionTypeSchema {
       'oneToMany',
       'api::blocklist.blocklist'
     >;
+    calls: Schema.Attribute.Relation<'oneToMany', 'api::call.call'>;
+    calls_received: Schema.Attribute.Relation<'oneToMany', 'api::call.call'>;
     comments: Schema.Attribute.Relation<'oneToMany', 'api::comment.comment'>;
+    conversation_participants: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::conversation-participant.conversation-participant'
+    >;
+    conversations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::conversation.conversation'
+    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -450,6 +460,14 @@ export interface ApiAccountUserAccountUser extends Struct.CollectionTypeSchema {
       'api::account-user.account-user'
     > &
       Schema.Attribute.Private;
+    messages_received: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::message.message'
+    >;
+    messages_sender: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::message.message'
+    >;
     notifications: Schema.Attribute.Relation<
       'oneToMany',
       'api::notification.notification'
@@ -519,6 +537,41 @@ export interface ApiBlocklistBlocklist extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiCallCall extends Struct.CollectionTypeSchema {
+  collectionName: 'calls';
+  info: {
+    displayName: 'call';
+    pluralName: 'calls';
+    singularName: 'call';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    call_type: Schema.Attribute.String;
+    caller_id: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::account-user.account-user'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    end_time: Schema.Attribute.DateTime;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::call.call'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    receiver_id: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::account-user.account-user'
+    >;
+    start_time: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiCommentComment extends Struct.CollectionTypeSchema {
   collectionName: 'comments';
   info: {
@@ -551,6 +604,82 @@ export interface ApiCommentComment extends Struct.CollectionTypeSchema {
       'manyToOne',
       'api::account-user.account-user'
     >;
+  };
+}
+
+export interface ApiConversationParticipantConversationParticipant
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'conversation_participants';
+  info: {
+    displayName: 'conversation_participant';
+    pluralName: 'conversation-participants';
+    singularName: 'conversation-participant';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    conversation_id: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::conversation.conversation'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    isAdmin: Schema.Attribute.Boolean;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::conversation-participant.conversation-participant'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    user_id: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::account-user.account-user'
+    >;
+  };
+}
+
+export interface ApiConversationConversation
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'conversations';
+  info: {
+    displayName: 'conversation';
+    pluralName: 'conversations';
+    singularName: 'conversation';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    conversation_created_by: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::account-user.account-user'
+    >;
+    conversation_participants: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::conversation-participant.conversation-participant'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    is_group_chat: Schema.Attribute.Boolean;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::conversation.conversation'
+    > &
+      Schema.Attribute.Private;
+    messages: Schema.Attribute.Relation<'oneToMany', 'api::message.message'>;
+    name: Schema.Attribute.Text;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
   };
 }
 
@@ -822,11 +951,57 @@ export interface ApiMediaMedia extends Struct.CollectionTypeSchema {
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::media.media'> &
       Schema.Attribute.Private;
+    messages_media: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::message.message'
+    >;
     post_media: Schema.Attribute.Relation<
       'manyToOne',
       'api::post-media.post-media'
     >;
     publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiMessageMessage extends Struct.CollectionTypeSchema {
+  collectionName: 'messages';
+  info: {
+    displayName: 'message';
+    pluralName: 'messages';
+    singularName: 'message';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    content: Schema.Attribute.Text;
+    conversation_id: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::conversation.conversation'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    is_read: Schema.Attribute.Boolean;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::message.message'
+    > &
+      Schema.Attribute.Private;
+    media_id: Schema.Attribute.Relation<'manyToOne', 'api::media.media'>;
+    publishedAt: Schema.Attribute.DateTime;
+    receiver_id: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::account-user.account-user'
+    >;
+    sender_id: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::account-user.account-user'
+    >;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1739,7 +1914,10 @@ declare module '@strapi/strapi' {
       'api::account-role.account-role': ApiAccountRoleAccountRole;
       'api::account-user.account-user': ApiAccountUserAccountUser;
       'api::blocklist.blocklist': ApiBlocklistBlocklist;
+      'api::call.call': ApiCallCall;
       'api::comment.comment': ApiCommentComment;
+      'api::conversation-participant.conversation-participant': ApiConversationParticipantConversationParticipant;
+      'api::conversation.conversation': ApiConversationConversation;
       'api::event-member.event-member': ApiEventMemberEventMember;
       'api::event.event': ApiEventEvent;
       'api::friend.friend': ApiFriendFriend;
@@ -1748,6 +1926,7 @@ declare module '@strapi/strapi' {
       'api::group-resquest.group-resquest': ApiGroupResquestGroupResquest;
       'api::group.group': ApiGroupGroup;
       'api::media.media': ApiMediaMedia;
+      'api::message.message': ApiMessageMessage;
       'api::notification.notification': ApiNotificationNotification;
       'api::post-media.post-media': ApiPostMediaPostMedia;
       'api::post-tag.post-tag': ApiPostTagPostTag;
