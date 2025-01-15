@@ -4,7 +4,8 @@
     "info": {
         "singularName": "conversation-participant",
         "pluralName": "conversation-participants",
-        "displayName": "conversation_participant"
+        "displayName": "conversation_participant",
+        "description": ""
     },
     "options": {
         "draftAndPublish": true
@@ -23,7 +24,7 @@
         "user_id": {
             "type": "relation",
             "relation": "manyToOne",
-            "target": "api::account-user.account-user",
+            "target": "plugin::users-permissions.user",
             "inversedBy": "conversation_participants"
         }
     }

@@ -4,7 +4,8 @@
   "info": {
     "singularName": "event-member",
     "pluralName": "event-members",
-    "displayName": "event_member"
+    "displayName": "event_member",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -20,7 +21,7 @@
     "user_id": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "api::account-user.account-user",
+      "target": "plugin::users-permissions.user",
       "inversedBy": "event_members"
     },
     "status_type": {

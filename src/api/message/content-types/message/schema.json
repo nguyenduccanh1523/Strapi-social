@@ -4,7 +4,8 @@
   "info": {
     "singularName": "message",
     "pluralName": "messages",
-    "displayName": "message"
+    "displayName": "message",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -14,13 +15,13 @@
     "sender_id": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "api::account-user.account-user",
+      "target": "plugin::users-permissions.user",
       "inversedBy": "messages_sender"
     },
     "receiver_id": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "api::account-user.account-user",
+      "target": "plugin::users-permissions.user",
       "inversedBy": "messages_received"
     },
     "content": {

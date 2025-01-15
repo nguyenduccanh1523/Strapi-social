@@ -21,7 +21,7 @@
     "user_id": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "api::account-user.account-user",
+      "target": "plugin::users-permissions.user",
       "inversedBy": "comments"
     },
     "parent_id": {

@@ -92,6 +92,138 @@
         },
         "address": {
             "type": "text"
+        },
+        "role_ids": {
+            "type": "relation",
+            "relation": "manyToMany",
+            "target": "api::account-role.account-role",
+            "mappedBy": "users_permissions_users"
+        },
+        "blocklists": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::blocklist.blocklist",
+            "mappedBy": "users_permissions_user"
+        },
+        "calls": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::call.call",
+            "mappedBy": "caller_id"
+        },
+        "calls_received": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::call.call",
+            "mappedBy": "receiver_id"
+        },
+        "conversations": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::conversation.conversation",
+            "mappedBy": "conversation_created_by"
+        },
+        "conversation_participants": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::conversation-participant.conversation-participant",
+            "mappedBy": "user_id"
+        },
+        "events_admin": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::event.event",
+            "mappedBy": "host_id"
+        },
+        "event_members": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::event-member.event-member",
+            "mappedBy": "user_id"
+        },
+        "friends": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::friend.friend",
+            "mappedBy": "user_id"
+        },
+        "friends_request": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::friend.friend",
+            "mappedBy": "friend_id"
+        },
+        "admin_group": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::group.group",
+            "mappedBy": "admin_id"
+        },
+        "groups_ids": {
+            "type": "relation",
+            "relation": "manyToMany",
+            "target": "api::group-member.group-member",
+            "mappedBy": "users_ids"
+        },
+        "messages_sender": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::message.message",
+            "mappedBy": "sender_id"
+        },
+        "messages_received": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::message.message",
+            "mappedBy": "receiver_id"
+        },
+        "notifications": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::notification.notification",
+            "mappedBy": "user_id"
+        },
+        "posts": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::post.post",
+            "mappedBy": "user_id"
+        },
+        "reactions": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::reaction.reaction",
+            "mappedBy": "user_id"
+        },
+        "shares": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::share.share",
+            "mappedBy": "user_id"
+        },
+        "stories": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::story.story",
+            "mappedBy": "user_id"
+        },
+        "user_socials": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::user-social.user-social",
+            "mappedBy": "account_user"
+        },
+        "view_stories": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::view-story.view-story",
+            "mappedBy": "user_id"
+        },
+        "comments": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::comment.comment",
+            "mappedBy": "user_id"
         }
     }
 }

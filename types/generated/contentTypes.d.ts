@@ -381,10 +381,6 @@ export interface ApiAccountRoleAccountRole extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    account_users: Schema.Attribute.Relation<
-      'manyToMany',
-      'api::account-user.account-user'
-    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -400,6 +396,10 @@ export interface ApiAccountRoleAccountRole extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    users_permissions_users: Schema.Attribute.Relation<
+      'manyToMany',
+      'plugin::users-permissions.user'
+    >;
   };
 }
 
@@ -418,11 +418,6 @@ export interface ApiAccountUserAccountUser extends Struct.CollectionTypeSchema {
     address: Schema.Attribute.Text;
     admin_group: Schema.Attribute.Relation<'oneToMany', 'api::group.group'>;
     bio: Schema.Attribute.Text;
-    blocked: Schema.Attribute.Relation<'oneToMany', 'api::blocklist.blocklist'>;
-    blocklists: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::blocklist.blocklist'
-    >;
     calls: Schema.Attribute.Relation<'oneToMany', 'api::call.call'>;
     calls_received: Schema.Attribute.Relation<'oneToMany', 'api::call.call'>;
     comments: Schema.Attribute.Relation<'oneToMany', 'api::comment.comment'>;
@@ -481,10 +476,6 @@ export interface ApiAccountUserAccountUser extends Struct.CollectionTypeSchema {
     publishedAt: Schema.Attribute.DateTime;
     reactions: Schema.Attribute.Relation<'oneToMany', 'api::reaction.reaction'>;
     relationship_status: Schema.Attribute.String;
-    role_ids: Schema.Attribute.Relation<
-      'manyToMany',
-      'api::account-role.account-role'
-    >;
     shares: Schema.Attribute.Relation<'oneToMany', 'api::share.share'>;
     stories: Schema.Attribute.Relation<'oneToMany', 'api::story.story'>;
     updatedAt: Schema.Attribute.DateTime;
@@ -505,6 +496,7 @@ export interface ApiAccountUserAccountUser extends Struct.CollectionTypeSchema {
 export interface ApiBlocklistBlocklist extends Struct.CollectionTypeSchema {
   collectionName: 'blocklists';
   info: {
+    description: '';
     displayName: 'blocklist';
     pluralName: 'blocklists';
     singularName: 'blocklist';
@@ -515,7 +507,7 @@ export interface ApiBlocklistBlocklist extends Struct.CollectionTypeSchema {
   attributes: {
     blocked_user_id: Schema.Attribute.Relation<
       'manyToOne',
-      'api::account-user.account-user'
+      'plugin::users-permissions.user'
     >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -530,9 +522,9 @@ export interface ApiBlocklistBlocklist extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    user_id: Schema.Attribute.Relation<
+    users_permissions_user: Schema.Attribute.Relation<
       'manyToOne',
-      'api::account-user.account-user'
+      'plugin::users-permissions.user'
     >;
   };
 }
@@ -540,6 +532,7 @@ export interface ApiBlocklistBlocklist extends Struct.CollectionTypeSchema {
 export interface ApiCallCall extends Struct.CollectionTypeSchema {
   collectionName: 'calls';
   info: {
+    description: '';
     displayName: 'call';
     pluralName: 'calls';
     singularName: 'call';
@@ -551,7 +544,7 @@ export interface ApiCallCall extends Struct.CollectionTypeSchema {
     call_type: Schema.Attribute.String;
     caller_id: Schema.Attribute.Relation<
       'manyToOne',
-      'api::account-user.account-user'
+      'plugin::users-permissions.user'
     >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -563,7 +556,7 @@ export interface ApiCallCall extends Struct.CollectionTypeSchema {
     publishedAt: Schema.Attribute.DateTime;
     receiver_id: Schema.Attribute.Relation<
       'manyToOne',
-      'api::account-user.account-user'
+      'plugin::users-permissions.user'
     >;
     start_time: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
@@ -602,7 +595,7 @@ export interface ApiCommentComment extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     user_id: Schema.Attribute.Relation<
       'manyToOne',
-      'api::account-user.account-user'
+      'plugin::users-permissions.user'
     >;
   };
 }
@@ -611,6 +604,7 @@ export interface ApiConversationParticipantConversationParticipant
   extends Struct.CollectionTypeSchema {
   collectionName: 'conversation_participants';
   info: {
+    description: '';
     displayName: 'conversation_participant';
     pluralName: 'conversation-participants';
     singularName: 'conversation-participant';
@@ -639,7 +633,7 @@ export interface ApiConversationParticipantConversationParticipant
       Schema.Attribute.Private;
     user_id: Schema.Attribute.Relation<
       'manyToOne',
-      'api::account-user.account-user'
+      'plugin::users-permissions.user'
     >;
   };
 }
@@ -648,6 +642,7 @@ export interface ApiConversationConversation
   extends Struct.CollectionTypeSchema {
   collectionName: 'conversations';
   info: {
+    description: '';
     displayName: 'conversation';
     pluralName: 'conversations';
     singularName: 'conversation';
@@ -658,7 +653,7 @@ export interface ApiConversationConversation
   attributes: {
     conversation_created_by: Schema.Attribute.Relation<
       'manyToOne',
-      'api::account-user.account-user'
+      'plugin::users-permissions.user'
     >;
     conversation_participants: Schema.Attribute.Relation<
       'oneToMany',
@@ -686,6 +681,7 @@ export interface ApiConversationConversation
 export interface ApiEventMemberEventMember extends Struct.CollectionTypeSchema {
   collectionName: 'event_members';
   info: {
+    description: '';
     displayName: 'event_member';
     pluralName: 'event-members';
     singularName: 'event-member';
@@ -711,7 +707,7 @@ export interface ApiEventMemberEventMember extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     user_id: Schema.Attribute.Relation<
       'manyToOne',
-      'api::account-user.account-user'
+      'plugin::users-permissions.user'
     >;
   };
 }
@@ -719,6 +715,7 @@ export interface ApiEventMemberEventMember extends Struct.CollectionTypeSchema {
 export interface ApiEventEvent extends Struct.CollectionTypeSchema {
   collectionName: 'events';
   info: {
+    description: '';
     displayName: 'event';
     pluralName: 'events';
     singularName: 'event';
@@ -738,7 +735,7 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
     >;
     host_id: Schema.Attribute.Relation<
       'manyToOne',
-      'api::account-user.account-user'
+      'plugin::users-permissions.user'
     >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::event.event'> &
@@ -756,6 +753,7 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
 export interface ApiFriendFriend extends Struct.CollectionTypeSchema {
   collectionName: 'friends';
   info: {
+    description: '';
     displayName: 'friend';
     pluralName: 'friends';
     singularName: 'friend';
@@ -769,7 +767,7 @@ export interface ApiFriendFriend extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     friend_id: Schema.Attribute.Relation<
       'manyToOne',
-      'api::account-user.account-user'
+      'plugin::users-permissions.user'
     >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -784,7 +782,7 @@ export interface ApiFriendFriend extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     user_id: Schema.Attribute.Relation<
       'manyToOne',
-      'api::account-user.account-user'
+      'plugin::users-permissions.user'
     >;
   };
 }
@@ -793,6 +791,7 @@ export interface ApiGroupInvitationGroupInvitation
   extends Struct.CollectionTypeSchema {
   collectionName: 'group_invitations';
   info: {
+    description: '';
     displayName: 'group_invitation';
     pluralName: 'group-invitations';
     singularName: 'group-invitation';
@@ -808,11 +807,11 @@ export interface ApiGroupInvitationGroupInvitation
     invitaion_status: Schema.Attribute.String;
     invited_by: Schema.Attribute.Relation<
       'oneToOne',
-      'api::account-user.account-user'
+      'plugin::users-permissions.user'
     >;
     invited_to: Schema.Attribute.Relation<
       'oneToOne',
-      'api::account-user.account-user'
+      'plugin::users-permissions.user'
     >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -856,7 +855,7 @@ export interface ApiGroupMemberGroupMember extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     users_ids: Schema.Attribute.Relation<
       'manyToMany',
-      'api::account-user.account-user'
+      'plugin::users-permissions.user'
     >;
   };
 }
@@ -865,6 +864,7 @@ export interface ApiGroupResquestGroupResquest
   extends Struct.CollectionTypeSchema {
   collectionName: 'group_resquests';
   info: {
+    description: '';
     displayName: 'group_resquest';
     pluralName: 'group-resquests';
     singularName: 'group-resquest';
@@ -890,7 +890,7 @@ export interface ApiGroupResquestGroupResquest
       Schema.Attribute.Private;
     user_request: Schema.Attribute.Relation<
       'oneToOne',
-      'api::account-user.account-user'
+      'plugin::users-permissions.user'
     >;
   };
 }
@@ -909,7 +909,7 @@ export interface ApiGroupGroup extends Struct.CollectionTypeSchema {
   attributes: {
     admin_id: Schema.Attribute.Relation<
       'manyToOne',
-      'api::account-user.account-user'
+      'plugin::users-permissions.user'
     >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -969,6 +969,7 @@ export interface ApiMediaMedia extends Struct.CollectionTypeSchema {
 export interface ApiMessageMessage extends Struct.CollectionTypeSchema {
   collectionName: 'messages';
   info: {
+    description: '';
     displayName: 'message';
     pluralName: 'messages';
     singularName: 'message';
@@ -996,11 +997,11 @@ export interface ApiMessageMessage extends Struct.CollectionTypeSchema {
     publishedAt: Schema.Attribute.DateTime;
     receiver_id: Schema.Attribute.Relation<
       'manyToOne',
-      'api::account-user.account-user'
+      'plugin::users-permissions.user'
     >;
     sender_id: Schema.Attribute.Relation<
       'manyToOne',
-      'api::account-user.account-user'
+      'plugin::users-permissions.user'
     >;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -1012,6 +1013,7 @@ export interface ApiNotificationNotification
   extends Struct.CollectionTypeSchema {
   collectionName: 'notifications';
   info: {
+    description: '';
     displayName: 'notification';
     pluralName: 'notifications';
     singularName: 'notification';
@@ -1038,7 +1040,7 @@ export interface ApiNotificationNotification
       Schema.Attribute.Private;
     user_id: Schema.Attribute.Relation<
       'manyToOne',
-      'api::account-user.account-user'
+      'plugin::users-permissions.user'
     >;
   };
 }
@@ -1138,7 +1140,7 @@ export interface ApiPostPost extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     user_id: Schema.Attribute.Relation<
       'manyToOne',
-      'api::account-user.account-user'
+      'plugin::users-permissions.user'
     >;
   };
 }
@@ -1146,6 +1148,7 @@ export interface ApiPostPost extends Struct.CollectionTypeSchema {
 export interface ApiReactionReaction extends Struct.CollectionTypeSchema {
   collectionName: 'reactions';
   info: {
+    description: '';
     displayName: 'reaction';
     pluralName: 'reactions';
     singularName: 'reaction';
@@ -1171,7 +1174,7 @@ export interface ApiReactionReaction extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     user_id: Schema.Attribute.Relation<
       'manyToOne',
-      'api::account-user.account-user'
+      'plugin::users-permissions.user'
     >;
   };
 }
@@ -1201,7 +1204,7 @@ export interface ApiShareShare extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     user_id: Schema.Attribute.Relation<
       'manyToOne',
-      'api::account-user.account-user'
+      'plugin::users-permissions.user'
     >;
   };
 }
@@ -1238,6 +1241,7 @@ export interface ApiSocialSocial extends Struct.CollectionTypeSchema {
 export interface ApiStoryStory extends Struct.CollectionTypeSchema {
   collectionName: 'stories';
   info: {
+    description: '';
     displayName: 'story';
     pluralName: 'stories';
     singularName: 'story';
@@ -1262,7 +1266,7 @@ export interface ApiStoryStory extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     user_id: Schema.Attribute.Relation<
       'manyToOne',
-      'api::account-user.account-user'
+      'plugin::users-permissions.user'
     >;
     view_stories: Schema.Attribute.Relation<
       'oneToMany',
@@ -1342,7 +1346,7 @@ export interface ApiUserSocialUserSocial extends Struct.CollectionTypeSchema {
     account_url: Schema.Attribute.Text;
     account_user: Schema.Attribute.Relation<
       'manyToOne',
-      'api::account-user.account-user'
+      'plugin::users-permissions.user'
     >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -1364,6 +1368,7 @@ export interface ApiUserSocialUserSocial extends Struct.CollectionTypeSchema {
 export interface ApiViewStoryViewStory extends Struct.CollectionTypeSchema {
   collectionName: 'view_stories';
   info: {
+    description: '';
     displayName: 'view_story';
     pluralName: 'view-stories';
     singularName: 'view-story';
@@ -1388,7 +1393,7 @@ export interface ApiViewStoryViewStory extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     user_id: Schema.Attribute.Relation<
       'manyToOne',
-      'api::account-user.account-user'
+      'plugin::users-permissions.user'
     >;
   };
 }
@@ -1851,10 +1856,26 @@ export interface PluginUsersPermissionsUser
   };
   attributes: {
     address: Schema.Attribute.Text;
+    admin_group: Schema.Attribute.Relation<'oneToMany', 'api::group.group'>;
     bio: Schema.Attribute.Text;
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    blocklists: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::blocklist.blocklist'
+    >;
+    calls: Schema.Attribute.Relation<'oneToMany', 'api::call.call'>;
+    calls_received: Schema.Attribute.Relation<'oneToMany', 'api::call.call'>;
+    comments: Schema.Attribute.Relation<'oneToMany', 'api::comment.comment'>;
     confirmationToken: Schema.Attribute.String & Schema.Attribute.Private;
     confirmed: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    conversation_participants: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::conversation-participant.conversation-participant'
+    >;
+    conversations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::conversation.conversation'
+    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1864,40 +1885,82 @@ export interface PluginUsersPermissionsUser
       Schema.Attribute.SetMinMaxLength<{
         minLength: 6;
       }>;
+    event_members: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::event-member.event-member'
+    >;
+    events_admin: Schema.Attribute.Relation<'oneToMany', 'api::event.event'>;
+    friends: Schema.Attribute.Relation<'oneToMany', 'api::friend.friend'>;
+    friends_request: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::friend.friend'
+    >;
     gender: Schema.Attribute.String;
+    groups_ids: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::group-member.group-member'
+    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'plugin::users-permissions.user'
     > &
       Schema.Attribute.Private;
+    messages_received: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::message.message'
+    >;
+    messages_sender: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::message.message'
+    >;
+    notifications: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::notification.notification'
+    >;
     password: Schema.Attribute.Password &
       Schema.Attribute.Private &
       Schema.Attribute.SetMinMaxLength<{
         minLength: 6;
       }>;
     phone: Schema.Attribute.String;
+    posts: Schema.Attribute.Relation<'oneToMany', 'api::post.post'>;
     profile_picture: Schema.Attribute.Media<
       'images' | 'files' | 'videos' | 'audios',
       true
     >;
     provider: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
+    reactions: Schema.Attribute.Relation<'oneToMany', 'api::reaction.reaction'>;
     relationship_status: Schema.Attribute.String;
     resetPasswordToken: Schema.Attribute.String & Schema.Attribute.Private;
     role: Schema.Attribute.Relation<
       'manyToOne',
       'plugin::users-permissions.role'
     >;
+    role_ids: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::account-role.account-role'
+    >;
+    shares: Schema.Attribute.Relation<'oneToMany', 'api::share.share'>;
+    stories: Schema.Attribute.Relation<'oneToMany', 'api::story.story'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    user_socials: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::user-social.user-social'
+    >;
     username: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.Unique &
       Schema.Attribute.SetMinMaxLength<{
         minLength: 3;
       }>;
+    view_stories: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::view-story.view-story'
+    >;
   };
 }
 

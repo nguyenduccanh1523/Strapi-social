@@ -18,11 +18,11 @@
         "description": {
             "type": "text"
         },
-        "account_users": {
+        "users_permissions_users": {
             "type": "relation",
             "relation": "manyToMany",
-            "target": "api::account-user.account-user",
-            "mappedBy": "role_ids"
+            "target": "plugin::users-permissions.user",
+            "inversedBy": "role_ids"
         }
     }
 }

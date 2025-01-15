@@ -21,7 +21,7 @@
         "users_ids": {
             "type": "relation",
             "relation": "manyToMany",
-            "target": "api::account-user.account-user",
+            "target": "plugin::users-permissions.user",
             "inversedBy": "groups_ids"
         }
     }

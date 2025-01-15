@@ -50,12 +50,6 @@
     "address": {
       "type": "text"
     },
-    "role_ids": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::account-role.account-role",
-      "inversedBy": "account_users"
-    },
     "posts": {
       "type": "relation",
       "relation": "oneToMany",
@@ -121,18 +115,6 @@
       "relation": "oneToMany",
       "target": "api::view-story.view-story",
       "mappedBy": "user_id"
-    },
-    "blocklists": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::blocklist.blocklist",
-      "mappedBy": "user_id"
-    },
-    "blocked": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::blocklist.blocklist",
-      "mappedBy": "blocked_user_id"
     },
     "notifications": {
       "type": "relation",

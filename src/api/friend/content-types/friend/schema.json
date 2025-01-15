@@ -4,7 +4,8 @@
   "info": {
     "singularName": "friend",
     "pluralName": "friends",
-    "displayName": "friend"
+    "displayName": "friend",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -14,13 +15,13 @@
     "user_id": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "api::account-user.account-user",
+      "target": "plugin::users-permissions.user",
       "inversedBy": "friends"
     },
     "friend_id": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "api::account-user.account-user",
+      "target": "plugin::users-permissions.user",
       "inversedBy": "friends_request"
     },
     "status_type": {

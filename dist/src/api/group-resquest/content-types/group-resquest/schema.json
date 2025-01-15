@@ -4,7 +4,8 @@
     "info": {
         "singularName": "group-resquest",
         "pluralName": "group-resquests",
-        "displayName": "group_resquest"
+        "displayName": "group_resquest",
+        "description": ""
     },
     "options": {
         "draftAndPublish": true
@@ -22,7 +23,7 @@
         "user_request": {
             "type": "relation",
             "relation": "oneToOne",
-            "target": "api::account-user.account-user"
+            "target": "plugin::users-permissions.user"
         }
     }
 }

@@ -4,7 +4,8 @@
   "info": {
     "singularName": "conversation",
     "pluralName": "conversations",
-    "displayName": "conversation"
+    "displayName": "conversation",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -20,7 +21,7 @@
     "conversation_created_by": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "api::account-user.account-user",
+      "target": "plugin::users-permissions.user",
       "inversedBy": "conversations"
     },
     "conversation_participants": {
