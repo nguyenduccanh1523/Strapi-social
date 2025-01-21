@@ -65,16 +65,6 @@
       "inversedBy": "users",
       "configurable": false
     },
-    "profile_picture": {
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ],
-      "type": "media",
-      "multiple": true
-    },
     "bio": {
       "type": "text"
     },
@@ -224,6 +214,21 @@
       "relation": "oneToMany",
       "target": "api::comment.comment",
       "mappedBy": "user_id"
+    },
+    "profile_picture": {
+      "type": "string"
+    },
+    "live_in": {
+      "type": "string"
+    },
+    "language": {
+      "type": "string"
+    },
+    "hobbies": {
+      "type": "text"
+    },
+    "favourites": {
+      "type": "text"
     }
   }
 }

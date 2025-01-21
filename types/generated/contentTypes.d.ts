@@ -1890,6 +1890,7 @@ export interface PluginUsersPermissionsUser
       'api::event-member.event-member'
     >;
     events_admin: Schema.Attribute.Relation<'oneToMany', 'api::event.event'>;
+    favourites: Schema.Attribute.Text;
     friends: Schema.Attribute.Relation<'oneToMany', 'api::friend.friend'>;
     friends_request: Schema.Attribute.Relation<
       'oneToMany',
@@ -1900,6 +1901,9 @@ export interface PluginUsersPermissionsUser
       'manyToMany',
       'api::group-member.group-member'
     >;
+    hobbies: Schema.Attribute.Text;
+    language: Schema.Attribute.String;
+    live_in: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1925,10 +1929,7 @@ export interface PluginUsersPermissionsUser
       }>;
     phone: Schema.Attribute.String;
     posts: Schema.Attribute.Relation<'oneToMany', 'api::post.post'>;
-    profile_picture: Schema.Attribute.Media<
-      'images' | 'files' | 'videos' | 'audios',
-      true
-    >;
+    profile_picture: Schema.Attribute.String;
     provider: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     reactions: Schema.Attribute.Relation<'oneToMany', 'api::reaction.reaction'>;
